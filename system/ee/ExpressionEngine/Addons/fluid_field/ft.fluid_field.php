@@ -245,8 +245,6 @@ class Fluid_field_ft extends EE_Fieldtype
 
         $values['field_id_' . $field->getId()] = $field->getData();
 
-        $field->postSave();
-
         $format = $field->getFormat();
 
         if (! is_null($format)) {
@@ -282,6 +280,8 @@ class Fluid_field_ft extends EE_Fieldtype
         $query->set($values);
         $query->where('id', $fluid_field->field_data_id);
         $query->update($fluid_field->ChannelField->getTableName());
+        
+        $fluid_field->getField()->postSave();
     }
 
     private function addField($order, $field_id, array $values)
@@ -317,6 +317,8 @@ class Fluid_field_ft extends EE_Fieldtype
 
         $fluid_field->field_data_id = $id;
         $fluid_field->save();
+        
+        $fluid_field->getField()->postSave();
     }
 
     private function removeField($fluid_field)
